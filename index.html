@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Tech Gadgets</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Gadgets</title>
+    <meta name="description" content="Bob's Digital Hub - A curated collection of personal digital services">
+    <meta name="theme-color" content="#45a29e">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <style>
         :root {
@@ -23,6 +25,30 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             box-sizing: border-box;
+        }
+          /* Add to existing CSS */
+          body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-color: #bb86fc;
+            --secondary-color: #03dac6;
+            --box-bg: #1e1e1e;
+            --box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(180deg);
         }
         .main-content {
             flex: 1;
@@ -61,8 +87,11 @@
             box-shadow: var(--box-shadow);
         }
         .icon-link:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: scale(1.05);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+        }
+        .dark-mode .icon-link:hover {
+            box-shadow: 0 12px 20px rgba(255, 255, 255, 0.1);
         }
         .icon-link:hover .icon-title {
             color: var(--accent-color);
@@ -116,6 +145,7 @@
     </style>
 </head>
 <body>
+    <button class="theme-toggle" aria-label="Toggle Dark Mode">🌓</button>
     <div class="main-content">
         <h1 class="page-title">Bob's Tech Gadgets</h1>
         <div class="icon-container">
@@ -149,12 +179,46 @@
                 <span class="icon-title">Short Link</span>
             </a>
             
+            <a href="https://pearl.baobo.me" target="_blank" class="icon-link">
+                <span class="emoji">🔮</span>
+                <span class="icon-title">Gengar Bark</span>
+            </a>
+            
         </div>
     </div>
     <footer>
         <p>&copy; <span id="current-year"></span> Bob. All rights reserved.</p>
     </footer>
+
     <script>
+        // Dark Mode Toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+        }
+
+        // Toggle theme
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+        });
+
+        // Handle link clicks
+        document.querySelectorAll('.icon-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const url = link.getAttribute('href');
+                if (url.startsWith('http')) {
+                    e.preventDefault();
+                    window.open(url, '_blank');
+                }
+            });
+        });
+
+        // Dynamic Year in Footer
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
 </body>
